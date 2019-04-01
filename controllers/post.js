@@ -9,7 +9,6 @@ exports.postById = (req, res, next, id) => {
         //.populate("comments", "text created") added one on video
         .populate("comments.postedBy", "_id name") //added on github soruce! why were there errors and deleted ones? like conten
         .populate("postedBy", "_id name role")
-        .sort({ created: -1 })
         //.select("_id title body created likes")
         // and also contenType... i dont know how twoof them dont work.
         .exec((err, post) => {
@@ -86,7 +85,7 @@ exports.postsByUser = (req, res) => {
     Post.find({ postedBy: req.profile._id })
         .populate("postedBy", "_id name")
         .select("_id body created likes")
-        .sort("_created")
+        .sort({ created: -1 })
         .exec((err, posts) => {
             if (err) {
                 return res.status(400).json({
